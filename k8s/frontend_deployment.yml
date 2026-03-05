@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend-deployment
+  labels:
+    app: frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+        - name: frontend
+          image: saiyedin786/streamingapp:frontend
+          imagePullPolicy: Always
+          ports: 
+            - containerPort: 80
+          env:
+            - name: REACT_APP_AUTH_API_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: REACT_APP_AUTH_API_URL
+            - name: REACT_APP_STREAMING_API_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: REACT_APP_STREAMING_API_URL
+            - name: REACT_APP_STREAMING_PUBLIC_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: REACT_APP_STREAMING_PUBLIC_URL
+            - name: REACT_APP_ADMIN_API_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: REACT_APP_ADMIN_API_URL
+            - name: REACT_APP_CHAT_API_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: REACT_APP_CHAT_API_URL
+            - name: REACT_APP_CHAT_SOCKET_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: REACT_APP_CHAT_SOCKET_URL
+
+    
+

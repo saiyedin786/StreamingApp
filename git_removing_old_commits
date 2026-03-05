@@ -1,0 +1,63 @@
+how to delete all commit history in git
+
+If you want to delete all commit history in Git and keep only the latest code, you need to create a new orphan branch and push it to overwrite the repository history.
+
+⚠️ Warning: This permanently removes all previous commits from the repository history.
+
+Method: Remove All Git Commit History
+1️⃣ Go to your repository
+cd your-repository
+2️⃣ Create a new orphan branch
+
+This creates a branch without any commit history.
+
+git checkout --orphan latest_branch
+3️⃣ Add all files
+git add -A
+4️⃣ Create a new commit
+git commit -m "Initial commit"
+
+Now your repo contains only one commit.
+
+5️⃣ Delete old main branch
+git branch -D main
+
+If your branch is master, use:
+
+git branch -D master
+6️⃣ Rename the new branch
+git branch -m main
+7️⃣ Force push to GitHub
+git push -f origin main
+
+This overwrites the remote history.
+
+Verify
+
+Run:
+
+git log
+
+You should see only one commit.
+
+Alternative (Fast Method)
+
+Delete .git and reinitialize:
+
+rm -rf .git
+git init
+git add .
+git commit -m "Initial commit"
+git remote add origin <repo-url>
+git push -f origin main
+When this is used
+
+Removing sensitive data from history
+
+Cleaning huge commit history
+
+Resetting repo before open source release
+
+Fixing GitHub secret scanning issues
+
+If you want, I can also show how to remove a secret from Git history without deleting all commits (very useful for GitHub secret scanning errors you were facing).

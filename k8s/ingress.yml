@@ -1,0 +1,118 @@
+
+# apiVersion: networking.k8s.io/v1
+# kind: Ingress
+# metadata:
+#   name: streamingapp-ingress
+#   annotations:
+#     nginx.ingress.kubernetes.io/use-regex: "true"
+# spec:
+#   ingressClassName: nginx
+#   rules:
+#     - host: localhost
+#       http:
+#         paths:
+
+#         # AUTH SERVICE
+#         - path: /api/auth(/|$)(.*)
+#           pathType: Prefix
+#           backend:
+#             service:
+#               name: authservice
+#               port:
+#                 number: 3001
+
+#         # ADMIN SERVICE
+#         - path: /api/admin(/|$)(.*)
+#           pathType: Prefix
+#           backend:
+#             service:
+#               name: adminservice
+#               port:
+#                 number: 3003
+
+#         # CHAT SERVICE
+#         - path: /api/chat(/|$)(.*)
+#           pathType: Prefix
+#           backend:
+#             service:
+#               name: chatservice
+#               port:
+#                 number: 3004
+
+#         # STREAMING SERVICE
+#         - path: /api/streaming(/|$)(.*)
+#           pathType: Prefix
+#           backend:
+#             service:
+#               name: streamingservice
+#               port:
+#                 number: 3002
+
+#         # FRONTEND (NO REWRITE)
+#         - path: /
+#           pathType: Prefix
+#           backend:
+#             service:
+#               name: frontend-service
+#               port:
+#                 number: 80
+
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: streamingapp-ingress
+  annotations:
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+spec:
+  ingressClassName: alb
+
+  rules:
+  - http:
+      paths:
+
+      # AUTH SERVICE
+      - path: /api/auth
+        pathType: Prefix
+        backend:
+          service:
+            name: authservice
+            port:
+              number: 3001
+
+      # ADMIN SERVICE
+      - path: /api/admin
+        pathType: Prefix
+        backend:
+          service:
+            name: adminservice
+            port:
+              number: 3003
+
+      # CHAT SERVICE
+      - path: /api/chat
+        pathType: Prefix
+        backend:
+          service:
+            name: chatservice
+            port:
+              number: 3004
+
+      # STREAMING SERVICE
+      - path: /api/streaming
+        pathType: Prefix
+        backend:
+          service:
+            name: streamingservice
+            port:
+              number: 3002
+
+      # FRONTEND
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: frontend
+            port:
+              number: 80

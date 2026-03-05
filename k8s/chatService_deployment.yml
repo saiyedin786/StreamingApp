@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: chatservice-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: chatservice
+  template:
+    metadata:
+      labels:
+        app: chatservice
+    spec:
+      containers:
+        - name: chatservice
+          image: saiyedin786/streamingapp:chatservice
+          ports:
+            - containerPort: 3004
+          env:
+            - name: MONGO_URI
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: MONGO_URI
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: JWT_SECRET
+            - name: CLIENT_URLS
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: CLIENT_URLS
+           
+
+
+
+
+
+
+
+
+

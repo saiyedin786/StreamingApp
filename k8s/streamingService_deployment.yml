@@ -1,0 +1,79 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: streamingservice-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: streamingservice
+  template:
+    metadata:
+      labels:
+        app: streamingservice
+    spec:
+      containers:
+        - name: streamingservice
+          image: saiyedin786/streamingapp:streamingservice
+          ports:
+            - containerPort: 3002
+          env:
+            - name: MONGO_URI
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: MONGO_URI
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: JWT_SECRET
+            - name: CLIENT_URLS
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: CLIENT_URLS
+            - name: AWS_ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: AWS_ACCESS_KEY_ID
+            - name: AWS_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: AWS_SECRET_ACCESS_KEY
+            - name: AWS_REGION
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: AWS_REGION
+            - name: AWS_S3_BUCKET
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: AWS_S3_BUCKET
+            - name: AWS_CDN_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: AWS_CDN_URL
+            - name: STREAMING_PUBLIC_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: STREAMING_PUBLIC_URL
+            
+            
+            
+       
+
+
+
+
+
+
+
+
+
+

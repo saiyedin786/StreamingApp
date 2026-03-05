@@ -1,0 +1,57 @@
+{{- if .Values.ingress.enabled }}
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: streamingapp-ingress
+  annotations:
+    alb.ingress.kubernetes.io/healthcheck-path: /
+
+spec:
+  ingressClassName: nginx
+
+  rules:
+  - http:
+      paths:
+
+      - path: /api/auth
+        pathType: Prefix
+        backend:
+          service:
+            name: streamingapp-authservice
+            port:
+              number: 3001
+
+      - path: /api/admin
+        pathType: Prefix
+        backend:
+          service:
+            name: streamingapp-adminservice
+            port:
+              number: 3003
+
+      - path: /api/chat
+        pathType: Prefix
+        backend:
+          service:
+            name: streamingapp-chatservice
+            port:
+              number: 3004
+
+      - path: /api/streaming
+        pathType: Prefix
+        backend:
+          service:
+            name: streamingapp-streamingservice
+            port:
+              number: 3002
+
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: streamingapp-frontend
+            port:
+              number: 80
+
+{{- end }}

@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "adminservice.fullname" . }}
+  labels:
+    {{- include "adminservice.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: 3003
+      protocol: TCP
+      name: http
+  selector:
+    {{- include "adminservice.selectorLabels" . | nindent 4 }}
