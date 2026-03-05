@@ -11,7 +11,8 @@ spec:
   ingressClassName: nginx
 
   rules:
-  - http:
+  - host: ismail-profile.online
+    http:
       paths:
 
       - path: /api/auth
