@@ -21,7 +21,7 @@ fullnameOverride: ""
 
 env:
   PORT: 3002
-  MONGO_UR: mongodb://appuser:apppass@streaming-mongoservice:27017/streamingapp
+  MONGO_UR: mongodb://appuser:apppass@streamingapp-mongoservice.default.svc.cluster.local:27017/streamingapp
   JWT_SECRET: changeme
   CLIENT_URLS: http://ismail-profile.online
   AWS_ACCESS_KEY_ID: 
